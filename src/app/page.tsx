@@ -1,5 +1,6 @@
 import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
+import { signIn, signOut } from "next-auth/react";
 import Head from "next/head";
 
 import { Header } from "./_components/Header";
@@ -19,7 +20,7 @@ export default async function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Header sessionData={session} />
+        <Header signIn={signIn} signOut={signOut} sessionData={session} />
       </main>
     </HydrateClient>
   );
