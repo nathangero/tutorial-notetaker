@@ -4,6 +4,7 @@ import { api, type RouterOutputs } from "~/trpc/react";
 import { type Session } from "next-auth";
 import { useState } from "react";
 import { NoteEditor } from "./NoteEditor";
+import { NoteCard } from "./NoteCard";
 
 type Topic = RouterOutputs["topic"]["getAll"][0];
 
@@ -28,6 +29,12 @@ export const Content = ({ sessionData }: ContentProps) => {
       await utils.note.invalidate();
     }
   });
+
+  const deleteNote = api.note.delete.useMutation({
+    onSuccess: async () => {
+      await utils.note.invalidate();
+    }
+  })
 
   return (
     <div className="mx-5 mt-5 grid grid-cols-4 gap-2">
@@ -63,6 +70,11 @@ export const Content = ({ sessionData }: ContentProps) => {
         />
       </div>
       <div className="col-span-3">
+        <div>
+          {notes?.map((note) => (
+            <NoteCard note={note} onDelete={() => void deleteNote.mutate({ id: note.id })} />
+          ))}
+        </div>
         <NoteEditor onSave={({ title, content }) => {
           void createNote.mutate({
             title,
