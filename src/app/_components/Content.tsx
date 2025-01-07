@@ -1,11 +1,25 @@
 "use client"
 
-import { api } from "~/trpc/react";
-import { Session } from "next-auth";
+import { api, type RouterOutputs } from "~/trpc/react";
+import { type Session } from "next-auth";
+import { useState } from "react";
+
+type Topic = RouterOutputs["topic"]["getAll"][0];
 
 export const Content = ({ sessionData }: ContentProps) => {
   const [topics] = api.topic.getAll.useSuspenseQuery();
-  const createTopic = api.topic.create.useMutation({});
+  const [newTopic, setNewTopic] = useState("");
+  const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
+  // const [selectedTopic, setSelectedTopic] = useState("");
+
+  const utils = api.useUtils();
+
+  const createTopic = api.topic.create.useMutation({
+    onSuccess: async () => {
+      await utils.topic.invalidate();
+      setNewTopic("");
+    }
+  });
 
   return (
     <div className="mx-5 mt-5 grid grid-cols-4 gap-2">
@@ -17,6 +31,7 @@ export const Content = ({ sessionData }: ContentProps) => {
                 href="#"
                 onClick={(evt) => {
                   evt.preventDefault();
+                  setSelectedTopic(topic);
                 }}
               >{topic.title}
               </a>
@@ -28,17 +43,20 @@ export const Content = ({ sessionData }: ContentProps) => {
           type="text"
           placeholder="New Topic"
           className="input-bordered input input-sm w-full"
+          value={newTopic}
+          onChange={(e) => setNewTopic(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               createTopic.mutate({
                 title: e.currentTarget.value,
               });
-              e.currentTarget.value = "";
             }
           }}
         />
       </div>
-      <div className="col-span-3"></div>
+      <div className="col-span-3">
+
+      </div>
     </div>
   )
 }
