@@ -4,8 +4,11 @@ import CodeMirror from "@uiw/react-codemirror";
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { languages } from "@codemirror/language-data";
 import { useState } from "react";
+import { type RouterOutputs } from "~/trpc/react";
 
-export const NoteEditor = ({ onSave }: NoteEditorProps) => {
+type Topic = RouterOutputs["topic"]["getAll"][0];
+
+export const NoteEditor = ({ selectedTopic, onSave }: NoteEditorProps) => {
   const [code, setCode] = useState("");
   const [title, setTitle] = useState("");
 
@@ -45,7 +48,7 @@ export const NoteEditor = ({ onSave }: NoteEditorProps) => {
             setTitle("");
             setCode("");
           }}
-          disabled={title.trim().length === 0 || code.trim().length === 0}
+          disabled={title.trim().length === 0 || code.trim().length === 0 || selectedTopic === null}
         >
           Save
         </button>
@@ -55,5 +58,6 @@ export const NoteEditor = ({ onSave }: NoteEditorProps) => {
 }
 
 interface NoteEditorProps {
+  selectedTopic: Topic | null;
   onSave: (note: { title: string; content: string }) => void;
 }

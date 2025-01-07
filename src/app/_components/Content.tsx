@@ -74,8 +74,8 @@ export const Content = () => {
             <NoteCard key={note.id} note={note} onDelete={() => void deleteNote.mutate({ id: note.id })} />
           ))}
         </div>
-        <NoteEditor onSave={({ title, content }) => {
-          void createNote.mutate({
+        <NoteEditor selectedTopic={selectedTopic} onSave={({ title, content }) => {
+          createNote.mutate({
             title,
             content,
             topicId: selectedTopic?.id ?? ""
