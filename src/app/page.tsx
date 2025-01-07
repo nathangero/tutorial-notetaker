@@ -4,12 +4,14 @@ import { signIn, signOut } from "next-auth/react";
 import Head from "next/head";
 
 import { Header } from "./_components/Header";
+import { Content } from "./_components/Content";
 
 export default async function Home() {
   const session = await auth();
 
   if (session?.user) {
     void api.post.getLatest.prefetch();
+    void api.topic.getAll.prefetch();
   }
 
   return (
@@ -21,6 +23,7 @@ export default async function Home() {
       </Head>
       <main>
         <Header signIn={signIn} signOut={signOut} sessionData={session} />
+        <Content sessionData={session} />
       </main>
     </HydrateClient>
   );
