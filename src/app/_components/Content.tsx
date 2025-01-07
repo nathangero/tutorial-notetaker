@@ -11,6 +11,7 @@ export const Content = ({ sessionData }: ContentProps) => {
   const [topics] = api.topic.getAll.useSuspenseQuery();
   const [newTopic, setNewTopic] = useState("");
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
+  const [notes] = api.note.getAll.useSuspenseQuery({ topicId: selectedTopic?.id ?? "" });
 
 
   const utils = api.useUtils();
@@ -19,6 +20,12 @@ export const Content = ({ sessionData }: ContentProps) => {
     onSuccess: async () => {
       await utils.topic.invalidate();
       setNewTopic("");
+    }
+  });
+
+  const createNote = api.note.create.useMutation({
+    onSuccess: async () => {
+      await utils.note.invalidate();
     }
   });
 
@@ -56,7 +63,13 @@ export const Content = ({ sessionData }: ContentProps) => {
         />
       </div>
       <div className="col-span-3">
-        <NoteEditor />
+        <NoteEditor onSave={({ title, content }) => {
+          void createNote.mutate({
+            title,
+            content,
+            topicId: selectedTopic?.id ?? ""
+          })
+        }} />
       </div>
     </div>
   )
