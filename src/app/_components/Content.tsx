@@ -3,6 +3,7 @@
 import { api, type RouterOutputs } from "~/trpc/react";
 import { type Session } from "next-auth";
 import { useState } from "react";
+import { NoteEditor } from "./NoteEditor";
 
 type Topic = RouterOutputs["topic"]["getAll"][0];
 
@@ -55,7 +56,7 @@ export const Content = ({ sessionData }: ContentProps) => {
         />
       </div>
       <div className="col-span-3">
-
+        <NoteEditor />
       </div>
     </div>
   )
