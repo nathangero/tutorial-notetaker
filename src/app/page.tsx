@@ -23,7 +23,9 @@ export default async function Home() {
       </Head>
       <main>
         <Header signIn={signIn} signOut={signOut} sessionData={session} />
-        <Content sessionData={session} />
+        {session?.user &&
+          <Content sessionData={session} />
+        }
       </main>
     </HydrateClient>
   );

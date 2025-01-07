@@ -10,7 +10,7 @@ export const Content = ({ sessionData }: ContentProps) => {
   const [topics] = api.topic.getAll.useSuspenseQuery();
   const [newTopic, setNewTopic] = useState("");
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
-  // const [selectedTopic, setSelectedTopic] = useState("");
+
 
   const utils = api.useUtils();
 
