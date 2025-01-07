@@ -1,14 +1,13 @@
 "use client"
 
 import { api, type RouterOutputs } from "~/trpc/react";
-import { type Session } from "next-auth";
 import { useState } from "react";
 import { NoteEditor } from "./NoteEditor";
 import { NoteCard } from "./NoteCard";
 
 type Topic = RouterOutputs["topic"]["getAll"][0];
 
-export const Content = ({ sessionData }: ContentProps) => {
+export const Content = () => {
   const [topics] = api.topic.getAll.useSuspenseQuery();
   const [newTopic, setNewTopic] = useState("");
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
@@ -72,7 +71,7 @@ export const Content = ({ sessionData }: ContentProps) => {
       <div className="col-span-3">
         <div>
           {notes?.map((note) => (
-            <NoteCard note={note} onDelete={() => void deleteNote.mutate({ id: note.id })} />
+            <NoteCard key={note.id} note={note} onDelete={() => void deleteNote.mutate({ id: note.id })} />
           ))}
         </div>
         <NoteEditor onSave={({ title, content }) => {
@@ -85,9 +84,4 @@ export const Content = ({ sessionData }: ContentProps) => {
       </div>
     </div>
   )
-}
-
-interface ContentProps {
-
-  sessionData: Session | null;
 }
