@@ -23,6 +23,12 @@ export const Content = () => {
     }
   });
 
+  const deleteTopic = api.topic.delete.useMutation({
+    onSuccess: async () => {
+      await utils.topic.invalidate();
+    }
+  })
+
   const createNote = api.note.create.useMutation({
     onSuccess: async () => {
       await utils.note.invalidate();
@@ -49,7 +55,11 @@ export const Content = () => {
                     setSelectedTopic(topic);
                   }}
                 >
-                  <button className="btn btn-square btn-outline btn-error me-3 w-7 h-7">
+                  <button className="btn btn-square btn-outline btn-error me-3 w-7 h-7" onClick={async () => {
+                    deleteTopic.mutate({
+                      id: topic.id
+                    });
+                  }}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-auto w-3"
