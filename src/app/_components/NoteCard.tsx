@@ -24,6 +24,11 @@ export const NoteCard = ({ note, onDelete }: NoteCardProps) => {
             </article>
           </div>
         </div>
+        <div className="card-actions mx-2 flex justify-end">
+          <button className="btn-warning btn-sx btn ps-5" onClick={onDelete}>
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   )
