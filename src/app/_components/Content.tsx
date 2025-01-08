@@ -46,37 +46,38 @@ export const Content = () => {
       <div className="px-2">
         <ul className="menu rounded-box bg-base-100">
           {topics?.map((topic) => (
-            <div key={topic.id} className="mb-3">
-              <li>
-                <a
-                  href="#"
-                  onClick={(evt) => {
-                    evt.preventDefault();
-                    setSelectedTopic(topic);
-                  }}
-                >
-                  <button className="btn btn-square btn-outline btn-error me-3 w-7 h-7" onClick={async () => {
+            <li key={topic.id}>
+              <a
+                href="#"
+                onClick={(evt) => {
+                  evt.preventDefault();
+                  setSelectedTopic(topic);
+                }}
+              >
+                <button
+                  className="btn btn-square btn-outline btn-error me-3 w-7 h-7"
+                  onClick={async () => {
                     deleteTopic.mutate({
                       id: topic.id
                     });
-                  }}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-auto w-3"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                  {topic.title}
-                </a>
-              </li>
-            </div>
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-auto w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                {topic.title}
+              </a>
+            </li>
           ))}
         </ul>
         <div className="divider" />
