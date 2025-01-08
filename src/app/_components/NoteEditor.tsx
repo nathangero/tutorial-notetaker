@@ -39,7 +39,7 @@ export const NoteEditor = ({ selectedTopic, onSave }: NoteEditorProps) => {
       </div>
       <div className="card-actions justify-end">
         <button
-          className="btn-primary btn"
+          className="btn-primary btn m-5"
           onClick={() => {
             onSave({
               title,
