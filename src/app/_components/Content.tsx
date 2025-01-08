@@ -55,7 +55,7 @@ export const Content = () => {
                 }}
               >
                 <button
-                  className="btn btn-square btn-outline btn-error me-3 w-7 h-7"
+                  className="btn btn-square btn-outline btn-error me-3"
                   onClick={async () => {
                     deleteTopic.mutate({
                       id: topic.id
